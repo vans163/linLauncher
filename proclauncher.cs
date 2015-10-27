@@ -4,12 +4,12 @@ using System.Runtime.InteropServices;
 
 class ProcLauncher
 {
-    public static void CreateLinProcess(string lineagefolder, ushort port)
+    public static void CreateLinProcess(string lineagefolder, ushort port, string s3ep1, string logindll)
     {
         //"C:\\Lineage Tikal\\S3EP1.exe"
         //"2130706433 16600"
 
-        var binpath = System.IO.Path.Combine(lineagefolder, "S3EP1.exe");
+        var binpath = System.IO.Path.Combine(lineagefolder, s3ep1);
 
         STARTUPINFO si = new STARTUPINFO();
         PROCESS_INFORMATION pi = new PROCESS_INFORMATION();
@@ -80,7 +80,7 @@ class ProcLauncher
         0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00};
         WriteProcessMemory(pi.hProcess, (IntPtr)0x1601B8, write9, 0x150, out readed);
 
-        var logindllpath = System.IO.Path.Combine(lineagefolder, "Login.dll");
+        var logindllpath = System.IO.Path.Combine(lineagefolder, logindll);
         DllInjector.GetInstance.bInject(pi.dwProcessId, logindllpath);
 
         IntPtr t_handle = pi.hThread;

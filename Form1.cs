@@ -49,7 +49,7 @@ namespace loginForm
                 }
             }
 
-            ProcLauncher.CreateLinProcess(textBox1.Text, curPort);
+            ProcLauncher.CreateLinProcess(textBox1.Text, curPort, textBox2.Text, textBox3.Text);
 
             curPort++;
             set_curport_label(curPort);
