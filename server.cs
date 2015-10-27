@@ -82,8 +82,7 @@ namespace loginForm
             {
                 try
                 {
-                    recved = handler.Receive(buf);
-                    if (recved > 0)
+                    while ( (recved = handler.Receive(buf)) > 0)
                     {
                         proxyConn.Send(buf, recved, SocketFlags.None);
                     }
@@ -106,8 +105,7 @@ namespace loginForm
 
                 try
                 {
-                    recved = proxyConn.Receive(buf);
-                    if (recved > 0)
+                    while( (recved = proxyConn.Receive(buf)) > 0 )
                     {
                         handler.Send(buf, recved, SocketFlags.None);
                     }
