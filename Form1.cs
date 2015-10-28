@@ -111,13 +111,35 @@ namespace loginForm
             System.Environment.Exit(0);
         }
 
+        bool assetColorMode_16()
+        {
+            var dc = ProcLauncher.GetDC(IntPtr.Zero);
+            var w = ProcLauncher.GetDeviceCaps(dc, 0x0E);
+            var w2 = ProcLauncher.GetDeviceCaps(dc, 0x0C);
+            var total = w * w2;
+            if (total != 16)
+            {
+                MessageBox.Show("You must have 16bit color mode set to use windowed mode.");
+                return false;
+            }
+
+            return true;
+        }
+
         private void checkBox1_CheckStateChanged(object sender, EventArgs e)
         {
             if (checkBox1.Checked)
             {
                 if (!checkWindowed())
                 {
-                    setWindowded(true);
+                    if (assetColorMode_16())
+                    {
+                        setWindowded(true);
+                    }
+                    else
+                    {
+                        checkBox1.Checked = false;
+                    }
                 }
             }
             else

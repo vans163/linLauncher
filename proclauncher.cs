@@ -102,4 +102,9 @@ class ProcLauncher
         byte[] lpBuffer,
         int nSize,
         out IntPtr lpNumberOfBytesWritten);
+
+    [DllImport("gdi32.dll", CharSet = CharSet.Auto, SetLastError = true, ExactSpelling = true)]
+    public static extern int GetDeviceCaps(IntPtr hDC, int nIndex);
+    [DllImport("user32.dll")]
+    public static extern IntPtr GetDC(IntPtr hWnd);
 }
