@@ -133,6 +133,7 @@
             this.checkBox1.TabIndex = 3;
             this.checkBox1.Text = "Windowed";
             this.checkBox1.UseVisualStyleBackColor = true;
+            this.checkBox1.CheckStateChanged += new System.EventHandler(this.checkBox1_CheckStateChanged);
             // 
             // button1
             // 
