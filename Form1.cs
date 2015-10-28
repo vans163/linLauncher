@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Windows.Forms;
 using System.Net.Sockets;
+using System.Net;
 
 namespace loginForm
 {
@@ -37,19 +38,8 @@ namespace loginForm
             if (selectedServer == null)
                 return;
 
-            while (!Server.Start(curPort, selectedServer.IP, selectedServer.Port))
-            {
-                curPort++;
-
-                tries++;
-                if (tries > 50)
-                {
-                    MessageBox.Show("Tried to bind on over 50 ports, check your firewall");
-                    System.Environment.Exit(1);
-                }
-            }
-
-            ProcLauncher.CreateLinProcess(textBox1.Text, curPort, textBox2.Text, textBox3.Text);
+            var ipaddr = IPAddress.Parse(selectedServer.IP);
+            ProcLauncher.CreateLinProcess(textBox1.Text, ipaddr.Address, curPort, textBox2.Text, textBox3.Text);
 
             curPort++;
             set_curport_label(curPort);
