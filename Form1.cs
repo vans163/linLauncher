@@ -17,7 +17,6 @@ namespace loginForm
         public Form1()
         {
             InitializeComponent();
-            set_curport_label(curPort);
             listBox1.DisplayMember = "Name";
             populateServers();
             textBox1.Text = "C:\\Lineage Tikal";
@@ -38,11 +37,11 @@ namespace loginForm
             if (selectedServer == null)
                 return;
 
-            var ipaddr = IPAddress.Parse(selectedServer.IP);
-            ProcLauncher.CreateLinProcess(textBox1.Text, ipaddr.Address, curPort, textBox2.Text, textBox3.Text);
+            var ipaddr = (uint)IPAddress.NetworkToHostOrder((int)IPAddress.Parse(selectedServer.IP).Address);
+
+            ProcLauncher.CreateLinProcess(textBox1.Text, ipaddr, selectedServer.Port, textBox2.Text, textBox3.Text);
 
             curPort++;
-            set_curport_label(curPort);
         }
 
         private void listBox1_SelectedIndexChanged(object sender, EventArgs e)
@@ -50,11 +49,6 @@ namespace loginForm
             LineageServer selectedServer = (LineageServer)listBox1.SelectedItem;
             richTextBox1.Text = selectedServer.Description;
             set_serverstatus_label(selectedServer.serverStatus);
-        }
-
-        void set_curport_label(ushort port)
-        {
-            label1.Text = string.Format("Current Port: {0}", port);
         }
 
         void set_serverstatus_label(LineageServer.ServerStatus status)
