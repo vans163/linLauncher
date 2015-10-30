@@ -36,13 +36,16 @@ namespace loginForm
 
         bool checkWindowed()
         {
-            var file = openLineageCfg_Stream();
+            using (var file = openLineageCfg_Stream())
+            {
+                byte[] outb = new byte[258];
+                var readed = file.Read(outb, 0, 258);
 
-            byte[] outb= new byte[258];
-            var readed = file.Read(outb, 0, 258);
-            var windowdedFlag = outb[0xe4];
-            if (windowdedFlag == 0)
-                return true;
+
+                var windowdedFlag = outb[0xe4];
+                if (windowdedFlag == 0)
+                    return true;
+            }
 
             return false;
         }
@@ -54,12 +57,14 @@ namespace loginForm
                 var file = openLineageCfg_Stream();
                 file.Seek(0xe4, SeekOrigin.Begin);
                 file.WriteByte(0);
+                file.Close();
             }
             else
             {
                 var file = openLineageCfg_Stream();
                 file.Seek(0xe4, SeekOrigin.Begin);
                 file.WriteByte(1);
+                file.Close();
             }
         }
 
